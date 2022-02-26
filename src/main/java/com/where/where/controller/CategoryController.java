@@ -32,13 +32,13 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public CategoryDto add(@Valid @RequestBody CategoryDto categoryDto) {
-        return categoryService.add(categoryDto);
+    public ResponseEntity<CategoryDto> add(@Valid @RequestBody CategoryDto categoryDto) {
+        return new ResponseEntity<CategoryDto>(categoryService.add(categoryDto), HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
-    public CategoryDto getById(@Valid @RequestParam Long id) {
-        return categoryService.getById(id);
+    public ResponseEntity<CategoryDto> getById(@Valid @RequestParam Long id) {
+        return new ResponseEntity<CategoryDto>(categoryService.getById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +47,7 @@ public class CategoryController {
     }
 
     @PutMapping("/update")
-    public CategoryDto update(@Valid @RequestBody CategoryDto categoryDto) {
-        return categoryService.update(categoryDto);
+    public ResponseEntity<CategoryDto> update(@Valid @RequestBody CategoryDto categoryDto) {
+        return new ResponseEntity<CategoryDto>(categoryService.update(categoryDto), HttpStatus.OK);
     }
 }
