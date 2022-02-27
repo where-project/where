@@ -13,10 +13,10 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "base_user")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
-public class User {
+public class BaseUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
