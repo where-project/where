@@ -12,6 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class CategoryDto {
     private Long id;
 
-    @NotBlank(message="Must be not black")
+    @NotBlank(message="Must be not blank")
     private String categoryName;
 }
