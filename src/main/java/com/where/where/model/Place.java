@@ -18,9 +18,7 @@ public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull(message = "Must be not null")
-    @Size(min = 3)
+    
     private String placeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
