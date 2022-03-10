@@ -1,6 +1,7 @@
 package com.where.where.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,10 +17,13 @@ import java.util.Collection;
 @Table(name = "base_user")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
+@AllArgsConstructor
 public class BaseUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String username;
 
     @NotNull(message = "Email must be not null")
     @Email(message = "Email should be valid")
@@ -27,8 +31,7 @@ public class BaseUser {
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(message ="Password must be not null" )
-    @Size(min = 6, max = 20)
+    @NotNull(message = "Password must be not null")
     @Column(name = "password")
     private String password;
 
