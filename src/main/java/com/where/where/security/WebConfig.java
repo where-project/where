@@ -1,4 +1,4 @@
-package com.where.where.config.swagger;
+package com.where.where.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

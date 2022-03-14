@@ -1,5 +1,6 @@
 package com.where.where.exception;
 
+import com.where.where.exception.JWTVerificationException.RefreshTokenIsMissingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,13 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         errors.put("error", e.getMessage());
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(RefreshTokenIsMissingException.class)
+    public ResponseEntity<?> refreshTokenIsMissingException(RefreshTokenIsMissingException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
 }
