@@ -35,6 +35,6 @@ public class UpdatePlaceRequest {
 
 	@NotNull(message = "Must be not null")
 	@Positive
-	private Long ownerUserId;
+	private Long ownerId;
 
 }

@@ -19,7 +19,7 @@ public class PlaceDto {
 	private String locationCity;
 	private String locationAddress;
 	private List<PlaceCategoryDto> placeCategories;
-	private Long ownerUserId;
+	private Long ownerId;
 	private String ownerUsername;
 
 }
