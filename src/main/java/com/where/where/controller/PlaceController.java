@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.where.where.dto.CreatePlaceRequest;
 import com.where.where.dto.PlaceDto;
+import com.where.where.dto.UpdatePlaceRequest;
 import com.where.where.service.PlaceService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class PlaceController {
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<PlaceDto> update(@Valid @RequestBody PlaceDto placeDto) {
-		return new ResponseEntity<PlaceDto>(placeService.update(placeDto), HttpStatus.OK);
+	public ResponseEntity<UpdatePlaceRequest> update(@Valid @RequestBody UpdatePlaceRequest updatePlaceDto) {
+		return new ResponseEntity<UpdatePlaceRequest>(placeService.update(updatePlaceDto), HttpStatus.OK);
 	}
 }
