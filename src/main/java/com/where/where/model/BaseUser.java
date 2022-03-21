@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class BaseUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Must be not null")
+    @NotBlank(message = "Must be not blank")
+    @Column(name = "username", unique = true)
     private String username;
 
     @NotNull(message = "Email must be not null")

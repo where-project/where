@@ -17,6 +17,12 @@ public class CreatePlaceRequest {
     private String placeName;
 
     @NotNull(message = "Must be not null")
+    private String workDays;
+
+    @NotNull(message = "Must be not null")
+    private String WorkHours;
+
+    @NotNull(message = "Must be not null")
     private Long locationId;
 
     @NotNull(message = "Must be not null")
