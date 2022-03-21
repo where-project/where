@@ -20,25 +20,26 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long id;
 
-    @NotNull(message = "Must be not null")
-    @NotBlank(message = "Must be not blank")
-    @Column(name = "username", unique = true)
-    private String username;
+	@NotNull(message = "Must be not null")
+	@NotBlank(message = "Must be not blank")
+	@Column(name = "username", unique = true)
+	private String username;
 
-    @NotNull(message = "Email must be not null")
-    @Email(message = "Email should be valid")
-    @Column(name = "email", unique = true)
-    private String email;
+	@NotNull(message = "Email must be not null")
+	@Email(message = "Email should be valid")
+	@Column(name = "email", unique = true)
+	private String email;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(message = "Password must be not null")
-    @Column(name = "password")
-    private String password;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@NotNull(message = "Password must be not null")
+	@Column(name = "password")
+	private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Collection<Role> roles = new ArrayList<>();
 }
