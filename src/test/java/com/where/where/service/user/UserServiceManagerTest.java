@@ -27,11 +27,9 @@ class UserServiceManagerTest {
 
     @BeforeEach
     void setUp() {
-        //MockitoAnnotations.openMocks(this);
         roleRepository = mock(RoleRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
         userRepository = mock(UserRepository.class);
-
         userServiceManager = new UserServiceManager(userRepository,roleRepository,passwordEncoder);
     }
 
