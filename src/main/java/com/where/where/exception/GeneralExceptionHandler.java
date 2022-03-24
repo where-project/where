@@ -88,4 +88,20 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> roleNotFoundException(RoleNotFoundException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleAlreadyExistsException.class)
+    public ResponseEntity<?> roleAlreadyExistsException(RoleAlreadyExistsException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
 }
