@@ -24,7 +24,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) ->{
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
 
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
@@ -41,8 +41,8 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<?> emailAlreadyExistsException(EmailAlreadyExistsException e) {
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<?> usernameAlreadyExistsException(UsernameAlreadyExistsException e) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", e.getMessage());
         log.error(e.getMessage(), e);
@@ -55,5 +55,53 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         errors.put("error", e.getMessage());
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<?> emailAlreadyExistsException(EmailAlreadyExistsException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ScoreNotFoundException.class)
+    public ResponseEntity<?> scoreNotFoundException(ScoreNotFoundException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CategoryNameAlreadyExistsException.class)
+    public ResponseEntity<?> categoryNameAlreadyExistsException(CategoryNameAlreadyExistsException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PlaceNotFoundException.class)
+    public ResponseEntity<?> placeNotFoundException(PlaceNotFoundException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> roleNotFoundException(RoleNotFoundException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleAlreadyExistsException.class)
+    public ResponseEntity<?> roleAlreadyExistsException(RoleAlreadyExistsException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 }
