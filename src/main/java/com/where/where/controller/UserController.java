@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.where.where.dto.BaseUserDto;
 import com.where.where.dto.RoleToUserFormDto;
 import com.where.where.model.BaseUser;
 import com.where.where.model.Role;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -41,13 +43,13 @@ public class UserController {
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<BaseUser> saveUser(@RequestBody BaseUser user) {
+    public ResponseEntity<BaseUserDto> saveUser(@Valid @RequestBody BaseUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
     @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+    public ResponseEntity<Role> saveRole(@Valid @RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }

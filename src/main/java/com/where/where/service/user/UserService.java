@@ -1,13 +1,14 @@
 package com.where.where.service.user;
 
 
+import com.where.where.dto.BaseUserDto;
 import com.where.where.model.BaseUser;
 import com.where.where.model.Role;
 
 import java.util.List;
 
 public interface UserService {
-    BaseUser saveUser(BaseUser user);
+    BaseUserDto saveUser(BaseUser user);
 
     Role saveRole(Role role);
 

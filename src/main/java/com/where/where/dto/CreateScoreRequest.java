@@ -25,12 +25,10 @@ public class CreateScoreRequest {
     private LocalDate createDate;
 
     @NotNull(message = "Must be not null")
-    @NotBlank(message = "Must be not blank")
     @Positive
     private Long userId;
 
     @NotNull(message = "Must be not null")
-    @NotBlank(message = "Must be not blank")
     @Positive
     private Long placeId;
 }
