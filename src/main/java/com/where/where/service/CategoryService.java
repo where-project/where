@@ -1,6 +1,7 @@
 package com.where.where.service;
 
 import com.where.where.dto.CategoryDto;
+import com.where.where.dto.CreateCategoryRequest;
 import com.where.where.exception.CategoryNameAlreadyExistsException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Category;
@@ -19,11 +20,11 @@ public class CategoryService {
 	private final CategoryRepository categoryRepository;
 	private final ModelMapperService modelMapperService;
 
-	public CategoryDto add(CategoryDto categoryDto) {
-		checkIfCategoryExists(categoryDto.getCategoryName());
-		Category category = this.modelMapperService.forRequest().map(categoryDto, Category.class);
+	public CreateCategoryRequest add(CreateCategoryRequest createCategoryDto) {
+		checkIfCategoryExists(createCategoryDto.getCategoryName());
+		Category category = this.modelMapperService.forRequest().map(createCategoryDto, Category.class);
 		categoryRepository.save(category);
-		return categoryDto;
+		return createCategoryDto;
 	}
 
 	private void checkIfCategoryExists(String categoryName) {
@@ -49,12 +50,12 @@ public class CategoryService {
 	public void delete(Long id) {
 		categoryRepository.deleteById(id);
 	}
-	
+
 	public CategoryDto update(CategoryDto updateCategoryDto) {
 		Category category = modelMapperService.forRequest().map(updateCategoryDto, Category.class);
 		checkIfCategoryExists(updateCategoryDto.getCategoryName());
 		categoryRepository.save(category);
 		return updateCategoryDto;
 	}
-	
+
 }
