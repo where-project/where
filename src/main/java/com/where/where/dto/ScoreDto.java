@@ -10,11 +10,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScoreDto {
+
 	private Long id;
+
 	private float venueScore;
+
 	private float coronaScore;
+
 	private LocalDate createDate;
+
 	private String firstName;
+
 	private String lastName;
+
 	private String placeName;
+
 }

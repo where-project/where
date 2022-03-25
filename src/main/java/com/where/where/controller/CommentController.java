@@ -47,9 +47,10 @@ public class CommentController {
 		commentService.delete(id);
 	}
 
-	@PutMapping("/update")
-	public ResponseEntity<CommentDto> update(@Valid @RequestBody CommentDto commentDto) {
-		return new ResponseEntity<CommentDto>(commentService.update(commentDto), HttpStatus.OK);
+	@PutMapping("/update/{id}")
+	public ResponseEntity<CreateCommentRequest> update(@Valid @RequestParam Long id,
+			@Valid @RequestBody CreateCommentRequest createCommentDto) {
+		return new ResponseEntity<CreateCommentRequest>(commentService.update(id, createCommentDto), HttpStatus.OK);
 	}
 
 	@GetMapping("/getByPlaceId/{id}")

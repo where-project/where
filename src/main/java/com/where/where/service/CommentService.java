@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.where.where.dto.CommentDto;
 import com.where.where.dto.CreateCommentRequest;
+import com.where.where.exception.BusinessException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Comment;
 import com.where.where.repository.CommentRepository;
@@ -19,10 +20,10 @@ public class CommentService {
 	private final CommentRepository commentRepository;
 	private final ModelMapperService modelMapperService;
 
-	public CreateCommentRequest add(CreateCommentRequest createCommentDto) {
-		Comment comment = this.modelMapperService.forRequest().map(createCommentDto, Comment.class);
+	public CreateCommentRequest add(CreateCommentRequest createCommentRequest) {
+		Comment comment = this.modelMapperService.forRequest().map(createCommentRequest, Comment.class);
 		commentRepository.save(comment);
-		return createCommentDto;
+		return createCommentRequest;
 	}
 
 	public List<CommentDto> getAll() {
@@ -43,10 +44,14 @@ public class CommentService {
 		commentRepository.deleteById(id);
 	}
 
-	public CommentDto update(CommentDto updateCommentDto) {
-		Comment comment = modelMapperService.forRequest().map(updateCommentDto, Comment.class);
-		commentRepository.save(comment);
-		return updateCommentDto;
+	public CreateCommentRequest update(Long id, CreateCommentRequest createCommentDto) {
+		if (commentRepository.existsById(id)) {
+			Comment comment = modelMapperService.forRequest().map(createCommentDto, Comment.class);
+			comment.setId(id);
+			commentRepository.save(comment);
+			return createCommentDto;
+		}
+		throw new BusinessException("Comment does not found.");
 	}
 
 	public List<CommentDto> getByPlaceId(Long id) {

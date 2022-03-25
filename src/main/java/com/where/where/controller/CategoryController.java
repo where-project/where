@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.where.where.dto.CategoryDto;
+import com.where.where.dto.CreateCategoryRequest;
 import com.where.where.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,30 +25,30 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-    private final CategoryService categoryService;
+	private final CategoryService categoryService;
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<CategoryDto>> getAll() {
-        return new ResponseEntity<List<CategoryDto>>(categoryService.getAll(), HttpStatus.OK);
-    }
+	@GetMapping("/getAll")
+	public ResponseEntity<List<CategoryDto>> getAll() {
+		return new ResponseEntity<List<CategoryDto>>(categoryService.getAll(), HttpStatus.OK);
+	}
 
-    @PostMapping("/add")
-    public ResponseEntity<CategoryDto> add(@Valid @RequestBody CategoryDto categoryDto) {
-        return new ResponseEntity<CategoryDto>(categoryService.add(categoryDto), HttpStatus.OK);
-    }
+	@PostMapping("/add")
+	public ResponseEntity<CreateCategoryRequest> add(@Valid @RequestBody CreateCategoryRequest categoryDto) {
+		return new ResponseEntity<CreateCategoryRequest>(categoryService.add(categoryDto), HttpStatus.OK);
+	}
 
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<CategoryDto> getById(@Valid @RequestParam Long id) {
-        return new ResponseEntity<CategoryDto>(categoryService.getById(id), HttpStatus.OK);
-    }
+	@GetMapping("/getById/{id}")
+	public ResponseEntity<CategoryDto> getById(@Valid @RequestParam Long id) {
+		return new ResponseEntity<CategoryDto>(categoryService.getById(id), HttpStatus.OK);
+	}
 
-    @DeleteMapping("/{id}")
-    public void delete(@RequestParam Long id) {
-        categoryService.delete(id);
-    }
+	@DeleteMapping("/{id}")
+	public void delete(@RequestParam Long id) {
+		categoryService.delete(id);
+	}
 
-    @PutMapping("/update")
-    public ResponseEntity<CategoryDto> update(@Valid @RequestBody CategoryDto categoryDto) {
-        return new ResponseEntity<CategoryDto>(categoryService.update(categoryDto), HttpStatus.OK);
-    }
+	@PutMapping("/update")
+	public ResponseEntity<CategoryDto> update(@Valid @RequestBody CategoryDto categoryDto) {
+		return new ResponseEntity<CategoryDto>(categoryService.update(categoryDto), HttpStatus.OK);
+	}
 }
