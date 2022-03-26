@@ -3,6 +3,7 @@ package com.where.where.service;
 import com.where.where.dto.CategoryDto;
 import com.where.where.dto.CreateCategoryRequest;
 import com.where.where.exception.CategoryNameAlreadyExistsException;
+import com.where.where.exception.CategoryNotFoundException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Category;
 import com.where.where.repository.CategoryRepository;
@@ -42,20 +43,29 @@ public class CategoryService {
 	}
 
 	public CategoryDto getById(Long id) {
+		checkIfCategoryExistsById(id);
 		Category category = categoryRepository.getById(id);
 		CategoryDto response = modelMapperService.forDto().map(category, CategoryDto.class);
 		return response;
 	}
 
 	public void delete(Long id) {
+		checkIfCategoryExistsById(id);
 		categoryRepository.deleteById(id);
 	}
 
 	public CategoryDto update(CategoryDto updateCategoryDto) {
+		checkIfCategoryExistsById(updateCategoryDto.getId());
 		Category category = modelMapperService.forRequest().map(updateCategoryDto, Category.class);
 		checkIfCategoryExists(updateCategoryDto.getCategoryName());
 		categoryRepository.save(category);
 		return updateCategoryDto;
+	}
+
+	public void checkIfCategoryExistsById(Long id) {
+		if (!categoryRepository.existsById(id)) {
+			throw new CategoryNotFoundException("Category not found.");
+		}
 	}
 
 }
