@@ -48,7 +48,7 @@ public class CategoryController {
 		categoryService.delete(id);
 	}
 
-	@PutMapping("/update")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<UpdateCategoryDto> update(@Valid @RequestParam Long id,
 			@Valid @RequestBody UpdateCategoryDto updateCategoryDto) {
 		return new ResponseEntity<UpdateCategoryDto>(categoryService.update(id, updateCategoryDto), HttpStatus.OK);
