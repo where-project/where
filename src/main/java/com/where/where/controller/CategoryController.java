@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.where.where.dto.CategoryDto;
 import com.where.where.dto.CreateCategoryRequest;
+import com.where.where.dto.UpdateCategoryDto;
 import com.where.where.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,8 @@ public class CategoryController {
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<CategoryDto> update(@Valid @RequestBody CategoryDto categoryDto) {
-		return new ResponseEntity<CategoryDto>(categoryService.update(categoryDto), HttpStatus.OK);
+	public ResponseEntity<UpdateCategoryDto> update(@Valid @RequestParam Long id,
+			@Valid @RequestBody UpdateCategoryDto updateCategoryDto) {
+		return new ResponseEntity<UpdateCategoryDto>(categoryService.update(id, updateCategoryDto), HttpStatus.OK);
 	}
 }
