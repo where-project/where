@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePlaceRequest {
-	@Positive
-	private Long id;
 
 	@NotNull(message = "Must be not null")
 	@Size(max = 20, min = 2, message = "Place Name must be between 2 and 20")
