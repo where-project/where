@@ -2,6 +2,7 @@ package com.where.where.service;
 
 import com.where.where.dto.CategoryDto;
 import com.where.where.dto.CreateCategoryRequest;
+import com.where.where.dto.UpdateCategoryDto;
 import com.where.where.exception.CategoryNameAlreadyExistsException;
 import com.where.where.exception.CategoryNotFoundException;
 import com.where.where.mapper.ModelMapperService;
@@ -54,10 +55,11 @@ public class CategoryService {
 		categoryRepository.deleteById(id);
 	}
 
-	public CategoryDto update(CategoryDto updateCategoryDto) {
-		checkIfCategoryExistsById(updateCategoryDto.getId());
+	public UpdateCategoryDto update(Long id, UpdateCategoryDto updateCategoryDto) {
+		checkIfCategoryExistsById(id);
 		Category category = modelMapperService.forRequest().map(updateCategoryDto, Category.class);
 		checkIfCategoryExists(updateCategoryDto.getCategoryName());
+		category.setId(id);
 		categoryRepository.save(category);
 		return updateCategoryDto;
 	}

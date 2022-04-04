@@ -48,8 +48,9 @@ public class PlaceController {
 		placeService.delete(id);
 	}
 
-	@PutMapping("/update")
-	public ResponseEntity<UpdatePlaceRequest> update(@Valid @RequestBody UpdatePlaceRequest updatePlaceDto) {
-		return new ResponseEntity<UpdatePlaceRequest>(placeService.update(updatePlaceDto), HttpStatus.OK);
+	@PutMapping("/update/{id}")
+	public ResponseEntity<UpdatePlaceRequest> update(@Valid @RequestParam Long id,
+			@Valid @RequestBody UpdatePlaceRequest updatePlaceDto) {
+		return new ResponseEntity<UpdatePlaceRequest>(placeService.update(id, updatePlaceDto), HttpStatus.OK);
 	}
 }
