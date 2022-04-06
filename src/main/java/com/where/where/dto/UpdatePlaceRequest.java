@@ -14,11 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePlaceRequest {
-<<<<<<< Updated upstream
-=======
-    @Positive
-    private Long id;
->>>>>>> Stashed changes
 
     @NotNull(message = "Must be not null")
     @Size(max = 20, min = 2, message = "Place Name must be between 2 and 20")
