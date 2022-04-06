@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlaceDto {
-	private Long id;
-	private String workDays;
-	private String WorkHours;
-	private String placeName;
-	private Long locationId;
-	private String locationCountry;
-	private String locationCity;
-	private String locationAddress;
-	private List<PlaceCategoryDto> placeCategories;
-	private Long ownerId;
-	private String ownerUsername;
-
+    private Long id;
+    private String workDays;
+    private String WorkHours;
+    private String placeName;
+    private String phoneNumber;
+    private Long locationId;
+    private String locationCountry;
+    private String locationCity;
+    private String locationAddress;
+    private List<PlaceCategoryDto> placeCategories;
+    private Long ownerId;
+    private String ownerUsername;
 }
