@@ -3,6 +3,7 @@ package com.where.where.service.user;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,7 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.where.where.dto.BaseUserDto;
+import com.where.where.dto.CreateUserRequest;
+import com.where.where.dto.RoleToUserFormDto;
+import com.where.where.dto.UserDto;
 import com.where.where.exception.EmailAlreadyExistsException;
 import com.where.where.exception.RoleAlreadyExistsException;
 import com.where.where.exception.RoleNotFoundException;
@@ -22,6 +25,7 @@ import com.where.where.exception.UsernameAlreadyExistsException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.BaseUser;
 import com.where.where.model.Role;
+import com.where.where.model.User;
 import com.where.where.repository.RoleRepository;
 import com.where.where.repository.UserRepository;
 
@@ -56,23 +60,27 @@ public class UserServiceManager implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public BaseUserDto saveUser(BaseUser baseUser) {
-		if (userRepository.existsByUsername(baseUser.getUsername())) {
+	public UserDto saveUser(CreateUserRequest createUserRequest) {
+		if (userRepository.existsByUsername(createUserRequest.getUsername())) {
 			throw new UsernameAlreadyExistsException("Username already exists ");
 		}
-		if (userRepository.existsByEmail(baseUser.getEmail())) {
+		if (userRepository.existsByEmail(createUserRequest.getEmail())) {
 			throw new EmailAlreadyExistsException("Email already exists");
 		}
-		baseUser.getRoles().forEach(role -> {
+		createUserRequest.getCreateUserRoleRequest().forEach(role -> {
 			if (!roleRepository.existsById(role.getId())) {
 				throw new RoleNotFoundException("Role not found");
 			}
 		});
 
-		BaseUserDto userDto = this.modelMapperService.forDto().map(baseUser, BaseUserDto.class);
-		baseUser.setPassword(passwordEncoder.encode(baseUser.getPassword()));
-		userRepository.save(baseUser);
-		log.info("Saving new user {] to the database", baseUser.getUsername());
+		createUserRequest.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
+		User user = modelMapperService.forRequest().map(createUserRequest, User.class);
+		List<Role> rolesList = createUserRequest.getCreateUserRoleRequest().stream()
+				.map(role -> modelMapperService.forRequest().map(role, Role.class)).collect(Collectors.toList());
+		user.setRoles(rolesList);
+		userRepository.save(user);
+		log.info("Saving new user {] to the database", createUserRequest.getUsername());
+		UserDto userDto = this.modelMapperService.forDto().map(createUserRequest, UserDto.class);
 		return userDto;
 	}
 
@@ -86,22 +94,26 @@ public class UserServiceManager implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public void addRoleToUser(String username, String roleName) {
+	public void addRoleToUser(RoleToUserFormDto form) {
 
-		if (!userRepository.existsByUsername(username)) {
+		if (!userRepository.existsById(form.getUserId())) {
 			throw new UserNotFoundException("Username not exists");
-		} else if (!roleRepository.existsByName(roleName)) {
+		} else if (!roleRepository.existsById(form.getRoleId())) {
 			throw new RoleNotFoundException("Role not found");
 		}
-		log.info("Adding role {} to user{}", roleName, username);
-		BaseUser user = userRepository.findByUsername(username);
-		Role role = roleRepository.findByName(roleName);
+
+		BaseUser user = userRepository.getById(form.getUserId());
+		Role role = roleRepository.getById(form.getRoleId());
+
+		log.info("Adding role {} to user{}", role.getName(), user.getUsername());
 		log.info(role.toString());
-		user.getRoles().forEach(rolee -> {
-			if (role.getId() == rolee.getId()) {
-				throw new RoleAlreadyExistsException(user.getUsername() + " already has role " + rolee.getName());
+
+		user.getRoles().forEach(userRole -> {
+			if (role.getId() == userRole.getId()) {
+				throw new RoleAlreadyExistsException(user.getUsername() + " already has role " + userRole.getName());
 			}
 		});
+
 		user.getRoles().add(role);
 	}
 
