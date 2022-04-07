@@ -33,6 +33,8 @@ public class Place {
 
 	private String WorkHours;
 
+	private String phoneNumber;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "location_id")
 	private Location location;
