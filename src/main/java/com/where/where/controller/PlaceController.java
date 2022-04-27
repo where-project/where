@@ -6,14 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.where.where.dto.CreatePlaceRequest;
 import com.where.where.dto.PlaceDto;
@@ -39,17 +32,17 @@ public class PlaceController {
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<PlaceDto> getById(@Valid @RequestParam Long id) {
+	public ResponseEntity<PlaceDto> getById(@Valid @PathVariable Long id) {
 		return new ResponseEntity<PlaceDto>(placeService.getById(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public void delete(@RequestParam Long id) {
+	public void delete(@PathVariable Long id) {
 		placeService.delete(id);
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<UpdatePlaceRequest> update(@Valid @RequestParam Long id,
+	public ResponseEntity<UpdatePlaceRequest> update(@Valid @PathVariable Long id,
 			@Valid @RequestBody UpdatePlaceRequest updatePlaceDto) {
 		return new ResponseEntity<UpdatePlaceRequest>(placeService.update(id, updatePlaceDto), HttpStatus.OK);
 	}

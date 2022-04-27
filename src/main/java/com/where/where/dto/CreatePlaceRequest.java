@@ -36,5 +36,4 @@ public class CreatePlaceRequest {
     private Long ownerId;
 
     private List<CreatePlaceCategoryRequest> createPlaceCategoryRequests;
-
 }
