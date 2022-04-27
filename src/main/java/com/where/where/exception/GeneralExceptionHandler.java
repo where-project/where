@@ -144,4 +144,11 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<?> locationNotFoundException(LocationNotFoundException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+    }
 }
