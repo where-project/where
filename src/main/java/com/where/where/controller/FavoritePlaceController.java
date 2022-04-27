@@ -25,13 +25,13 @@ public class FavoritePlaceController {
                 favoritePlaceService.add(createFavoritePlaceRequest), HttpStatus.OK);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<FavoritePlaceDto>> getFavoritePlacesByUserId(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<List<FavoritePlaceDto>> getFavoritePlacesByUserId(@PathVariable Long id) {
         return new ResponseEntity<List<FavoritePlaceDto>>(favoritePlaceService.getByUserId(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@RequestParam Long id) {
+    public void delete(@PathVariable Long id) {
         favoritePlaceService.delete(id);
     }
 }

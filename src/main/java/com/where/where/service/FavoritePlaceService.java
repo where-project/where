@@ -1,12 +1,10 @@
 package com.where.where.service;
 
-import com.where.where.dto.CommentDto;
 import com.where.where.dto.CreateFavoritePlaceRequest;
 import com.where.where.dto.FavoritePlaceDto;
 import com.where.where.exception.CommentNotFoundException;
 import com.where.where.exception.FavoritePlaceAlreadyExistsException;
 import com.where.where.mapper.ModelMapperService;
-import com.where.where.model.Comment;
 import com.where.where.model.FavoritePlace;
 import com.where.where.repository.FavoritePlaceRepository;
 import com.where.where.service.user.UserService;

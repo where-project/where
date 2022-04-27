@@ -4,14 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.where.where.dto.CategoryDto;
 import com.where.where.dto.CreateCategoryRequest;
@@ -39,7 +32,7 @@ public class CategoryController {
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<CategoryDto> getById(@Valid @RequestParam Long id) {
+	public ResponseEntity<CategoryDto> getById(@Valid @PathVariable Long id) {
 		return new ResponseEntity<CategoryDto>(categoryService.getById(id), HttpStatus.OK);
 	}
 
@@ -49,7 +42,7 @@ public class CategoryController {
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<UpdateCategoryDto> update(@Valid @RequestParam Long id,
+	public ResponseEntity<UpdateCategoryDto> update(@Valid @PathVariable Long id,
 			@Valid @RequestBody UpdateCategoryDto updateCategoryDto) {
 		return new ResponseEntity<UpdateCategoryDto>(categoryService.update(id, updateCategoryDto), HttpStatus.OK);
 	}
