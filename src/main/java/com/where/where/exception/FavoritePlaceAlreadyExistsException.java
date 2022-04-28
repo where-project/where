@@ -7,6 +7,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class FavoritePlaceAlreadyExistsException extends RuntimeException {
     public FavoritePlaceAlreadyExistsException(String message) {
         super(message);
-
     }
 }

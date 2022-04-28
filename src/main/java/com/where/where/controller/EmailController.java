@@ -27,8 +27,7 @@ public class EmailController {
     @PostMapping("/send-email")
     public String sendEmail(@RequestParam String email) {
         try {
-            BaseUser user = new BaseUser();
-            emailService.sendEmail(user, email, "Merhaba bu bir Where projesi " +
+            emailService.sendEmail(email, "Merhaba bu bir Where projesi " +
                             "mail gönderme sistemi testidir. Kaptan pilotunuz ONUR konuşmaktadır. " +
                             "Lütfen mesaji dikkate almayınız !!!",
                     "Payment Details WHERE");
@@ -40,16 +39,12 @@ public class EmailController {
 
     @PostMapping("/send-email-with-attachment")
     public String sendEmailWithAttachment(@RequestParam String email) throws MessagingException {
-        try {
-            BaseUser user = new BaseUser();
-            emailService.sendEmailWithAttachment(user, email, "Merhaba bu bir Where projesi " +
-                            "mail gönderme sistemi testidir. Kaptan pilotunuz ONUR konuşmaktadır. " +
-                            "Lütfen mesaji dikkate almayınız !!! This email has attachment",
-                    "Payment Details WHERE",
-                    "C:\\\\Users\\\\onura\\\\Desktop\\\\where\\\\Email\\\\wh.png");
-        } catch (MailException e) {
-            logger.info(e.getMessage());
-        }
+        emailService.sendEmailWithAttachment(email, "Merhaba bu bir Where projesi " +
+                        "mail gönderme sistemi testidir. Kaptan pilotunuz ONUR konuşmaktadır. " +
+                        "Lütfen mesaji dikkate almayınız !!! This email has attachment",
+                "Payment Details WHERE",
+                "C:\\\\Users\\\\onura\\\\Desktop\\\\where\\\\Email\\\\wh.png");
         return "Mail sent successfully";
     }
 }
+
