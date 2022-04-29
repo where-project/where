@@ -2,6 +2,7 @@ package com.where.where.service.user;
 
 import java.util.List;
 
+import com.where.where.dto.CreateRoleRequest;
 import com.where.where.dto.CreateUserRequest;
 import com.where.where.dto.RoleToUserFormDto;
 import com.where.where.dto.UserDto;
@@ -11,7 +12,7 @@ import com.where.where.model.Role;
 public interface UserService {
 	UserDto saveUser(CreateUserRequest createUserRequest);
 
-	Role saveRole(Role role);
+	Role saveRole(CreateRoleRequest createRoleRequest);
 
 	void addRoleToUser(RoleToUserFormDto form);
 
