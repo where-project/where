@@ -30,6 +30,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.where.where.dto.CreateRoleRequest;
 import com.where.where.dto.CreateUserRequest;
 import com.where.where.dto.RoleToUserFormDto;
 import com.where.where.dto.UserDto;
@@ -57,9 +58,9 @@ public class UserController {
 	}
 
 	@PostMapping("/role/save")
-	public ResponseEntity<Role> saveRole(@Valid @RequestBody Role role) {
+	public ResponseEntity<Role> saveRole(@Valid @RequestBody CreateRoleRequest createRoleRequest) {
 		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
-		return ResponseEntity.created(uri).body(userService.saveRole(role));
+		return ResponseEntity.created(uri).body(userService.saveRole(createRoleRequest));
 	}
 
 	@PostMapping("/role/addtouser")

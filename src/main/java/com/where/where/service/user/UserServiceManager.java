@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.where.where.dto.CreateRoleRequest;
 import com.where.where.dto.CreateUserRequest;
 import com.where.where.dto.RoleToUserFormDto;
 import com.where.where.dto.UserDto;
@@ -85,11 +86,12 @@ public class UserServiceManager implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public Role saveRole(Role role) {
-		if (roleRepository.existsByName(role.getName())) {
+	public Role saveRole(CreateRoleRequest createRoleRequest) {
+		if (roleRepository.existsByName(createRoleRequest.getName())) {
 			throw new RoleAlreadyExistsException("Role already exists");
 		}
-		log.info("Saving new role {} to the database", role.getName());
+		log.info("Saving new role {} to the database", createRoleRequest.getName());
+		Role role = modelMapperService.forRequest().map(createRoleRequest, Role.class);
 		return roleRepository.save(role);
 	}
 
