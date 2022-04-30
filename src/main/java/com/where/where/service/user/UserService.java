@@ -7,6 +7,7 @@ import com.where.where.dto.RoleToUserFormDto;
 import com.where.where.dto.UserDto;
 import com.where.where.model.BaseUser;
 import com.where.where.model.Role;
+import com.where.where.model.User;
 
 public interface UserService {
 	UserDto saveUser(CreateUserRequest createUserRequest);
@@ -20,4 +21,6 @@ public interface UserService {
 	List<BaseUser> getUsers();
 
 	void existsById(Long id);
+
+	User getByUserId(Long id);
 }

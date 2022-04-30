@@ -38,4 +38,8 @@ public class User extends BaseUser {
 	@JsonIgnore
 	private List<Comment> comments;
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<UserImage> userImages;
+
 }
