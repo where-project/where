@@ -22,4 +22,6 @@ public class PlaceDto {
     private List<PlaceCategoryDto> placeCategories;
     private Long ownerId;
     private String ownerUsername;
+    private boolean isActive;
+    private boolean status;
 }
