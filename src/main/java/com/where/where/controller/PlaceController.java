@@ -19,31 +19,51 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/places")
 @RequiredArgsConstructor
 public class PlaceController {
-	private final PlaceService placeService;
+    private final PlaceService placeService;
 
-	@GetMapping("/getAll")
-	public ResponseEntity<List<PlaceDto>> getAll() {
-		return new ResponseEntity<List<PlaceDto>>(placeService.getAll(), HttpStatus.OK);
-	}
+    @GetMapping("/getAll")
+    public ResponseEntity<List<PlaceDto>> getAll() {
+        return new ResponseEntity<List<PlaceDto>>(placeService.getAll(), HttpStatus.OK);
+    }
 
-	@PostMapping("/add")
-	public ResponseEntity<CreatePlaceRequest> add(@Valid @RequestBody CreatePlaceRequest createPlaceRequest) {
-		return new ResponseEntity<CreatePlaceRequest>(placeService.add(createPlaceRequest), HttpStatus.OK);
-	}
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<PlaceDto> getById(@Valid @PathVariable Long id) {
+        return new ResponseEntity<PlaceDto>(placeService.getById(id), HttpStatus.OK);
+    }
 
-	@GetMapping("/getById/{id}")
-	public ResponseEntity<PlaceDto> getById(@Valid @PathVariable Long id) {
-		return new ResponseEntity<PlaceDto>(placeService.getById(id), HttpStatus.OK);
-	}
+    @GetMapping("/checkIsActive/")
+    public ResponseEntity<Boolean> checkIsActive(@RequestParam Long id) {
+        return new ResponseEntity<>(placeService.checkIsActive(id), HttpStatus.OK);
+    }
 
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		placeService.delete(id);
-	}
+    @GetMapping("/checkStatus/")
+    public ResponseEntity<Boolean> checkIsStatus(@RequestParam Long id) {
+        return new ResponseEntity<>(placeService.checkIsStatus(id), HttpStatus.OK);
+    }
 
-	@PutMapping("/update/{id}")
-	public ResponseEntity<UpdatePlaceRequest> update(@Valid @PathVariable Long id,
-			@Valid @RequestBody UpdatePlaceRequest updatePlaceDto) {
-		return new ResponseEntity<UpdatePlaceRequest>(placeService.update(id, updatePlaceDto), HttpStatus.OK);
-	}
+    @PostMapping("/add")
+    public ResponseEntity<CreatePlaceRequest> add(@Valid @RequestBody CreatePlaceRequest createPlaceRequest) {
+        return new ResponseEntity<CreatePlaceRequest>(placeService.add(createPlaceRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        placeService.delete(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<UpdatePlaceRequest> update(@Valid @PathVariable Long id,
+                                                     @Valid @RequestBody UpdatePlaceRequest updatePlaceDto) {
+        return new ResponseEntity<UpdatePlaceRequest>(placeService.update(id, updatePlaceDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/changeActive/{id}")
+    public ResponseEntity<Boolean> changeActive(@PathVariable Long id) {
+        return new ResponseEntity<>(placeService.changeActive(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/changeStatus/{id}")
+    public ResponseEntity<Boolean> changeStatus(@PathVariable Long id) {
+        return new ResponseEntity<>(placeService.changeStatus(id), HttpStatus.OK);
+    }
 }
