@@ -81,9 +81,7 @@ public class PlaceService {
 
     public Boolean changeActive(Long placeId) {
         checkIfPlaceExists(placeId);
-        Place placeToUpdate = placeRepository.findById(placeId).orElseThrow(
-                () -> new PlaceNotFoundException("Venue not found")
-        );
+        Place placeToUpdate = placeRepository.getById(placeId);
         placeToUpdate.setActive(!placeToUpdate.isActive());
         placeRepository.save(placeToUpdate);
         return placeToUpdate.isActive();
@@ -91,9 +89,7 @@ public class PlaceService {
 
     public Boolean changeStatus(Long placeId) {
         checkIfPlaceExists(placeId);
-        Place placeToUpdate = placeRepository.findById(placeId).orElseThrow(
-                () -> new PlaceNotFoundException("Venue not found")
-        );
+        Place placeToUpdate = placeRepository.getById(placeId);
         placeToUpdate.setStatus(!placeToUpdate.isStatus());
         placeRepository.save(placeToUpdate);
         return placeToUpdate.isStatus();
