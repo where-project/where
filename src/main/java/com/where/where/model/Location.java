@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -29,7 +31,9 @@ public class Location {
 
 	private String country;
 
-	private String city;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "city_id")
+	private City city;
 
 	private String address;
 
