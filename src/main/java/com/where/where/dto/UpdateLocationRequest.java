@@ -11,22 +11,23 @@ import javax.validation.constraints.Positive;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateLocationRequest
-{
-    @NotNull(message = "Must be not null")
-    @Positive
-    private double lat;
+public class UpdateLocationRequest {
 
-    @NotNull(message = "Must be not null")
-    @Positive
-    private double lng;
+	@NotNull(message = "Must be not null")
+	@Positive
+	private Long cityId;
 
-    @NotBlank(message = "Must be not blank")
-    private String country;
+	@NotNull(message = "Must be not null")
+	@Positive
+	private double lat;
 
-    @NotBlank(message = "Must be not blank")
-    private String city;
+	@NotNull(message = "Must be not null")
+	@Positive
+	private double lng;
 
-    @NotBlank(message = "Must be not blank")
-    private String address;
+	@NotBlank(message = "Must be not blank")
+	private String country;
+
+	@NotBlank(message = "Must be not blank")
+	private String address;
 }
