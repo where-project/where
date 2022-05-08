@@ -1,20 +1,17 @@
 package com.where.where.service;
 
-import com.where.where.dto.CommentDto;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.where.where.dto.CreateLocationRequest;
 import com.where.where.dto.LocationDto;
 import com.where.where.dto.UpdateLocationRequest;
-import com.where.where.exception.CommentNotFoundException;
 import com.where.where.exception.LocationNotFoundException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Location;
 import com.where.where.repository.LocationRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LocationService {
