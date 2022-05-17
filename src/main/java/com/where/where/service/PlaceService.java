@@ -1,10 +1,8 @@
 package com.where.where.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.where.where.exception.PlaceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.where.where.dto.CreatePlaceCategoryRequest;
@@ -12,6 +10,7 @@ import com.where.where.dto.CreatePlaceRequest;
 import com.where.where.dto.PlaceDto;
 import com.where.where.dto.UpdatePlaceRequest;
 import com.where.where.exception.BusinessException;
+import com.where.where.exception.PlaceNotFoundException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Place;
 import com.where.where.model.PlaceCategory;
