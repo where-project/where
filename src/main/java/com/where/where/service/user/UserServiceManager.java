@@ -138,4 +138,11 @@ public class UserServiceManager implements UserService, UserDetailsService {
 		}
 
 	}
+
+	@Override
+	public User getByUserId(Long id) {
+		existsById(id);
+		BaseUser baseUser = userRepository.getById(id);
+		return modelMapperService.forRequest().map(baseUser, User.class);
+	}
 }
