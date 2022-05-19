@@ -1,5 +1,6 @@
 package com.where.where.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,7 @@ public class PlaceService {
                 .map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
                 .collect(Collectors.toList());
         place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
+        place.setCreationDate(LocalDate.now());
         placeRepository.save(place);
         return createPlaceRequest;
     }

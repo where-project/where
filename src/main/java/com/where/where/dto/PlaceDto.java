@@ -1,5 +1,6 @@
 package com.where.where.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ public class PlaceDto {
     private String workDays;
     private String WorkHours;
     private String phoneNumber;
+    private LocalDate creationDate;
     private Long locationId;
     private String locationCountry;
     private String locationCityName;

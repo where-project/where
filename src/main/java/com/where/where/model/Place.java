@@ -1,5 +1,6 @@
 package com.where.where.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,6 +36,8 @@ public class Place {
 	private String WorkHours;
 
 	private String phoneNumber;
+	
+	private LocalDate creationDate;
 
 	@Column(name = "status", nullable = false)
 	private boolean status = false;
