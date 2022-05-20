@@ -21,4 +21,7 @@ public interface UserService {
 	List<BaseUser> getUsers();
 
 	void existsById(Long id);
+	
+	UserDto getById(Long id);
+
 }
