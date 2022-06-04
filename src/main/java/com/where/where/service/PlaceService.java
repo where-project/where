@@ -69,6 +69,7 @@ public class PlaceService {
     public UpdatePlaceRequest update(Long id, UpdatePlaceRequest updatePlaceDto) {
         checkIfPlaceExists(id);
         checkIfCategoryExists(updatePlaceDto.getCreatePlaceCategoryRequests());
+        Place oldPlace = placeRepository.getById(id);
         Place place = modelMapperService.forRequest().map(updatePlaceDto, Place.class);
         placeCategoryService.deleteByPlaceId(id);
         List<PlaceCategory> placeCategories = updatePlaceDto.getCreatePlaceCategoryRequests().stream()
@@ -76,6 +77,7 @@ public class PlaceService {
                 .collect(Collectors.toList());
         place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
         place.setId(id);
+        place.setCreationDate(oldPlace.getCreationDate());
         placeRepository.save(place);
         return updatePlaceDto;
     }
