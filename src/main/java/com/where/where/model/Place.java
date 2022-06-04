@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class Place {
 	private Long id;
 
 	private String placeName;
-	
+
 	private String description;
 
 	private String phoneNumber;
@@ -63,5 +64,4 @@ public class Place {
 
 	@OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Menu menu;
-
 }
