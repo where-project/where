@@ -24,8 +24,6 @@ public class CreatePlaceRequest {
 	@NotNull(message = "Must be not null")
 	private String phoneNumber;
 
-	@NotNull(message = "Must be not null")
-	@Positive
 	private Long locationId;
 
 	@NotNull(message = "Must be not null")
