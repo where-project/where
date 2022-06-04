@@ -20,6 +20,8 @@ public class PlaceDto {
 	private String locationCountry;
 	private String locationCityName;
 	private String locationAddress;
+	private double locationLat;
+	private double locationLng;
 	private List<PlaceCategoryDto> placeCategories;
 	private Long ownerId;
 	private String ownerUsername;
