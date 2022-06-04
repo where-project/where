@@ -27,4 +27,6 @@ public class PlaceDto {
 	private String ownerUsername;
 	private boolean isActive;
 	private boolean status;
+	private List<PlaceAmenityDto> placeAmenities;
+
 }

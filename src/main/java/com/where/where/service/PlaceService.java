@@ -14,6 +14,7 @@ import com.where.where.exception.BusinessException;
 import com.where.where.exception.PlaceNotFoundException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Place;
+import com.where.where.model.PlaceAmenity;
 import com.where.where.model.PlaceCategory;
 import com.where.where.repository.PlaceRepository;
 
@@ -22,110 +23,131 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
-    private final PlaceRepository placeRepository;
-    private final ModelMapperService modelMapperService;
-    private final PlaceCategoryService placeCategoryService;
-    // private final OwnerService ownerService;
-    private final CategoryService categoryService;
+	private final PlaceRepository placeRepository;
+	private final ModelMapperService modelMapperService;
+	private final PlaceCategoryService placeCategoryService;
+	// private final OwnerService ownerService;
+	private final CategoryService categoryService;
 
-    public CreatePlaceRequest add(CreatePlaceRequest createPlaceRequest) {
-        // checkIfOwnerExists(createPlaceRequest.getOwnerId());
-        // checkIfLocationExists(createPlaceRequst.getLocationId());
-        checkIfCategoryExists(createPlaceRequest.getCreatePlaceCategoryRequests());
-        Place place = this.modelMapperService.forRequest().map(createPlaceRequest, Place.class);
-        List<PlaceCategory> placeCategories = createPlaceRequest.getCreatePlaceCategoryRequests().stream()
-                .map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
-                .collect(Collectors.toList());
-        place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
-        place.setCreationDate(LocalDate.now());
-        placeRepository.save(place);
-        return createPlaceRequest;
-    }
+	public CreatePlaceRequest add(CreatePlaceRequest createPlaceRequest) {
+		// checkIfOwnerExists(createPlaceRequest.getOwnerId());
+		// checkIfLocationExists(createPlaceRequst.getLocationId());
+		checkIfCategoryExists(createPlaceRequest.getCreatePlaceCategoryRequests());
+		Place place = this.modelMapperService.forRequest().map(createPlaceRequest, Place.class);
 
-    private void checkIfCategoryExists(List<CreatePlaceCategoryRequest> createPlaceCategoryRequests) {
-        createPlaceCategoryRequests.forEach(createPlaceCategoryRequest -> {
-            categoryService.checkIfCategoryExistsById(createPlaceCategoryRequest.getCategoryId());
-        });
-    }
+		List<PlaceCategory> placeCategories = createPlaceRequest.getCreatePlaceCategoryRequests().stream()
+				.map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
+				.collect(Collectors.toList());
+		List<PlaceAmenity> placeAmenities = createPlaceRequest.getCreatePlaceAmenityRequest().stream()
+				.map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
+				.collect(Collectors.toList());
 
-    private List<PlaceCategory> mappingPlaceCategory(List<PlaceCategory> placeCategories, Place place) {
-        if (!placeCategories.isEmpty()) {
-            for (PlaceCategory placeCategory : placeCategories) {
-                placeCategory.setId(null);
-                placeCategory.setPlace(place);
-            }
-            return placeCategories;
-        }
-        throw new BusinessException("Category id is not specified.");
-    }
+		place.setPlaceAmenities(mappingPlaceAmenity(placeAmenities, place));
+		place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
+		place.setCreationDate(LocalDate.now());
+		placeRepository.save(place);
+		return createPlaceRequest;
+	}
 
-    public List<PlaceDto> getAll() {
-        List<Place> result = placeRepository.findAll();
-        List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
-                .collect(Collectors.toList());
-        return response;
-    }
+	private void checkIfCategoryExists(List<CreatePlaceCategoryRequest> createPlaceCategoryRequests) {
+		createPlaceCategoryRequests.forEach(createPlaceCategoryRequest -> {
+			categoryService.checkIfCategoryExistsById(createPlaceCategoryRequest.getCategoryId());
+		});
+	}
 
-    public UpdatePlaceRequest update(Long id, UpdatePlaceRequest updatePlaceDto) {
-        checkIfPlaceExists(id);
-        checkIfCategoryExists(updatePlaceDto.getCreatePlaceCategoryRequests());
-        Place oldPlace = placeRepository.getById(id);
-        Place place = modelMapperService.forRequest().map(updatePlaceDto, Place.class);
-        placeCategoryService.deleteByPlaceId(id);
-        List<PlaceCategory> placeCategories = updatePlaceDto.getCreatePlaceCategoryRequests().stream()
-                .map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
-                .collect(Collectors.toList());
-        place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
-        place.setId(id);
-        place.setCreationDate(oldPlace.getCreationDate());
-        placeRepository.save(place);
-        return updatePlaceDto;
-    }
+	private List<PlaceCategory> mappingPlaceCategory(List<PlaceCategory> placeCategories, Place place) {
+		if (!placeCategories.isEmpty()) {
+			for (PlaceCategory placeCategory : placeCategories) {
+				placeCategory.setId(null);
+				placeCategory.setPlace(place);
+			}
+			return placeCategories;
+		}
+		throw new BusinessException("Category id is not specified.");
+	}
 
-    public Boolean changeActive(Long placeId) {
-        checkIfPlaceExists(placeId);
-        Place placeToUpdate = placeRepository.getById(placeId);
-        placeToUpdate.setActive(!placeToUpdate.isActive());
-        placeRepository.save(placeToUpdate);
-        return placeToUpdate.isActive();
-    }
+	private List<PlaceAmenity> mappingPlaceAmenity(List<PlaceAmenity> placeAmenities, Place place) {
+		if (!placeAmenities.isEmpty()) {
+			for (PlaceAmenity placeAmenity : placeAmenities) {
+				placeAmenity.setId(null);
+				placeAmenity.setPlace(place);
+			}
+		}
+		return placeAmenities;
+	}
 
-    public Boolean changeStatus(Long placeId) {
-        checkIfPlaceExists(placeId);
-        Place placeToUpdate = placeRepository.getById(placeId);
-        placeToUpdate.setStatus(!placeToUpdate.isStatus());
-        placeRepository.save(placeToUpdate);
-        return placeToUpdate.isStatus();
-    }
+	public List<PlaceDto> getAll() {
+		List<Place> result = placeRepository.findAll();
+		List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
+				.collect(Collectors.toList());
+		return response;
+	}
 
-    public Boolean checkIsActive(Long placeId) {
-        checkIfPlaceExists(placeId);
-        PlaceDto placeDto = getById(placeId);
-        return placeDto.isActive();
-    }
+	public UpdatePlaceRequest update(Long id, UpdatePlaceRequest updatePlaceDto) {
+		checkIfPlaceExists(id);
+		checkIfCategoryExists(updatePlaceDto.getCreatePlaceCategoryRequests());
+		Place oldPlace = placeRepository.getById(id);
+		Place place = modelMapperService.forRequest().map(updatePlaceDto, Place.class);
+		placeCategoryService.deleteByPlaceId(id);
+		List<PlaceCategory> placeCategories = updatePlaceDto.getCreatePlaceCategoryRequests().stream()
+				.map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
+				.collect(Collectors.toList());
+		List<PlaceAmenity> placeAmenities = updatePlaceDto.getCreatePlaceAmenityRequest().stream()
+				.map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
+				.collect(Collectors.toList());
 
-    public Boolean checkIsStatus(Long placeId) {
-        checkIfPlaceExists(placeId);
-        PlaceDto placeDto = getById(placeId);
-        return placeDto.isStatus();
-    }
+		place.setPlaceAmenities(mappingPlaceAmenity(placeAmenities, place));
+		place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
+		place.setId(id);
+		place.setCreationDate(oldPlace.getCreationDate());
+		placeRepository.save(place);
+		return updatePlaceDto;
+	}
 
-    public void checkIfPlaceExists(Long id) {
-        if (!placeRepository.existsById(id)) {
-            throw new PlaceNotFoundException("Venue not found.");
-        }
-    }
+	public Boolean changeActive(Long placeId) {
+		checkIfPlaceExists(placeId);
+		Place placeToUpdate = placeRepository.getById(placeId);
+		placeToUpdate.setActive(!placeToUpdate.isActive());
+		placeRepository.save(placeToUpdate);
+		return placeToUpdate.isActive();
+	}
 
-    public PlaceDto getById(Long id) {
-        checkIfPlaceExists(id);
-        Place place = placeRepository.getById(id);
-        PlaceDto response = modelMapperService.forDto().map(place, PlaceDto.class);
-        return response;
-    }
+	public Boolean changeStatus(Long placeId) {
+		checkIfPlaceExists(placeId);
+		Place placeToUpdate = placeRepository.getById(placeId);
+		placeToUpdate.setStatus(!placeToUpdate.isStatus());
+		placeRepository.save(placeToUpdate);
+		return placeToUpdate.isStatus();
+	}
 
-    public void delete(Long id) {
-        checkIfPlaceExists(id);
-        placeRepository.deleteById(id);
+	public Boolean checkIsActive(Long placeId) {
+		checkIfPlaceExists(placeId);
+		PlaceDto placeDto = getById(placeId);
+		return placeDto.isActive();
+	}
 
-    }
+	public Boolean checkIsStatus(Long placeId) {
+		checkIfPlaceExists(placeId);
+		PlaceDto placeDto = getById(placeId);
+		return placeDto.isStatus();
+	}
+
+	public void checkIfPlaceExists(Long id) {
+		if (!placeRepository.existsById(id)) {
+			throw new PlaceNotFoundException("Venue not found.");
+		}
+	}
+
+	public PlaceDto getById(Long id) {
+		checkIfPlaceExists(id);
+		Place place = placeRepository.getById(id);
+		PlaceDto response = modelMapperService.forDto().map(place, PlaceDto.class);
+		return response;
+	}
+
+	public void delete(Long id) {
+		checkIfPlaceExists(id);
+		placeRepository.deleteById(id);
+
+	}
 }

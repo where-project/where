@@ -30,7 +30,7 @@ public class Place {
 	private Long id;
 
 	private String placeName;
-	
+
 	private String description;
 
 	private String phoneNumber;
@@ -62,5 +62,8 @@ public class Place {
 
 	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Menu> menus;
+
+	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<PlaceAmenity> placeAmenities;
 
 }
