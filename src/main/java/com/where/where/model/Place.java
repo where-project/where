@@ -30,13 +30,15 @@ public class Place {
 	private Long id;
 
 	private String placeName;
+	
+	private String description;
 
 	private String workDays;
 
 	private String WorkHours;
 
 	private String phoneNumber;
-	
+
 	private LocalDate creationDate;
 
 	@Column(name = "status", nullable = false)

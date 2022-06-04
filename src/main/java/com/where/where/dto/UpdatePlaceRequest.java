@@ -15,27 +15,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdatePlaceRequest {
 
-    @NotNull(message = "Must be not null")
-    @Size(max = 20, min = 2, message = "Place Name must be between 2 and 20")
-    private String placeName;
+	@NotNull(message = "Must be not null")
+	@Size(max = 20, min = 2, message = "Place Name must be between 2 and 20")
+	private String placeName;
 
-    @NotNull(message = "Must be not null")
-    private String workDays;
+	@NotNull(message = "Must be not null")
+	private String description;
 
-    @NotNull(message = "Must be not null")
-    private String workHours;
+	@NotNull(message = "Must be not null")
+	private String workDays;
 
-    @NotNull(message = "Must be not null")
-    private String phoneNumber;
+	@NotNull(message = "Must be not null")
+	private String workHours;
 
-    @NotNull(message = "Must be not null")
-    @Positive
-    private Long locationId;
+	@NotNull(message = "Must be not null")
+	private String phoneNumber;
 
-    @NotNull(message = "Must be not null")
-    @Positive
-    private Long ownerId;
-	
-    private List<CreatePlaceCategoryRequest> createPlaceCategoryRequests;
+	@NotNull(message = "Must be not null")
+	@Positive
+	private Long locationId;
+
+	@NotNull(message = "Must be not null")
+	@Positive
+	private Long ownerId;
+
+	private List<CreatePlaceCategoryRequest> createPlaceCategoryRequests;
 
 }
