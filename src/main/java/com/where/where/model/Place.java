@@ -33,10 +33,6 @@ public class Place {
 	
 	private String description;
 
-	private String workDays;
-
-	private String WorkHours;
-
 	private String phoneNumber;
 
 	private LocalDate creationDate;

@@ -23,12 +23,6 @@ public class UpdatePlaceRequest {
 	private String description;
 
 	@NotNull(message = "Must be not null")
-	private String workDays;
-
-	@NotNull(message = "Must be not null")
-	private String workHours;
-
-	@NotNull(message = "Must be not null")
 	private String phoneNumber;
 
 	@NotNull(message = "Must be not null")

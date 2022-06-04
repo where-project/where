@@ -14,8 +14,6 @@ public class PlaceDto {
 	private Long id;
 	private String placeName;
 	private String description;
-	private String workDays;
-	private String WorkHours;
 	private String phoneNumber;
 	private LocalDate creationDate;
 	private Long locationId;
