@@ -45,14 +45,14 @@ public class MenuController {
 	}
 
 	@GetMapping("/getByPlaceId/{id}")
-	public ResponseEntity<List<MenuDto>> getByPlaceId(@PathVariable Long id) {
+	public ResponseEntity<MenuDto> getByPlaceId(@PathVariable Long id) {
 		return new ResponseEntity<>(menuService.getByPlaceId(id), HttpStatus.OK);
 	}
 
-	@PutMapping("/{placeId}/{menuTypeId}")
-	public ResponseEntity<MenuDto> update(@Valid @PathVariable Long placeId, @Valid @PathVariable Long menuTypeId,
+	@PutMapping("/{placeId}")
+	public ResponseEntity<MenuDto> update(@Valid @PathVariable Long placeId,
 			@Valid @RequestBody List<CreateItemRequest> createItemRequest) {
-		return new ResponseEntity<MenuDto>(menuService.update(placeId, menuTypeId, createItemRequest), HttpStatus.OK);
+		return new ResponseEntity<MenuDto>(menuService.update(placeId, createItemRequest), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

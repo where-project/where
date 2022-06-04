@@ -34,10 +34,6 @@ public class Menu {
 	private List<Item> items;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "menu_type_id")
-	private MenuType menuType;
-
-	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "place_id")
 	private Place place;
 

@@ -15,7 +15,5 @@ public class MenuDto {
 
 	private Long placeId;
 
-	private String menuType;
-
 	private List<ItemDto> items;
 }
