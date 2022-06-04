@@ -5,14 +5,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.where.where.dto.CreatePlaceCategoryRequest;
 import com.where.where.dto.CreatePlaceRequest;
 import com.where.where.dto.PlaceDto;
 import com.where.where.dto.UpdatePlaceRequest;
+import com.where.where.dto.model.CreatePlaceModel;
 import com.where.where.exception.BusinessException;
 import com.where.where.exception.PlaceNotFoundException;
 import com.where.where.mapper.ModelMapperService;
+import com.where.where.model.Item;
+import com.where.where.model.Location;
+import com.where.where.model.Menu;
 import com.where.where.model.Place;
 import com.where.where.model.PlaceAmenity;
 import com.where.where.model.PlaceCategory;
@@ -26,27 +31,40 @@ public class PlaceService {
 	private final PlaceRepository placeRepository;
 	private final ModelMapperService modelMapperService;
 	private final PlaceCategoryService placeCategoryService;
-	// private final OwnerService ownerService;
 	private final CategoryService categoryService;
 
-	public CreatePlaceRequest add(CreatePlaceRequest createPlaceRequest) {
-		// checkIfOwnerExists(createPlaceRequest.getOwnerId());
-		// checkIfLocationExists(createPlaceRequst.getLocationId());
-		checkIfCategoryExists(createPlaceRequest.getCreatePlaceCategoryRequests());
-		Place place = this.modelMapperService.forRequest().map(createPlaceRequest, Place.class);
+	@Transactional
+	public CreatePlaceRequest add(CreatePlaceModel createPlaceModel) {
+		checkIfCategoryExists(createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests());
 
-		List<PlaceCategory> placeCategories = createPlaceRequest.getCreatePlaceCategoryRequests().stream()
-				.map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
+		Place place = this.modelMapperService.forRequest().map(createPlaceModel.getCreatePlaceRequest(), Place.class);
+		List<PlaceCategory> placeCategories = createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests()
+				.stream().map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
 				.collect(Collectors.toList());
-		List<PlaceAmenity> placeAmenities = createPlaceRequest.getCreatePlaceAmenityRequest().stream()
-				.map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
+		Location location = this.modelMapperService.forRequest().map(createPlaceModel.getCreateLocationRequest(),
+				Location.class);
+
+		List<Item> items = createPlaceModel.getCreateItemRequest().stream()
+				.map(item -> modelMapperService.forRequest().map(item, Item.class)).collect(Collectors.toList());
+		List<PlaceAmenity> placeAmenities = createPlaceModel.getCreatePlaceRequest().getCreatePlaceAmenityRequest()
+				.stream().map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
 				.collect(Collectors.toList());
 
 		place.setPlaceAmenities(mappingPlaceAmenity(placeAmenities, place));
+
+		Menu menu = new Menu();
+		menu.setItems(items);
+		menu.setPlace(place);
+		items.forEach(item -> item.setMenu(menu));
+
+		place.setLocation(location);
+		place.setMenu(menu);
+
 		place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
 		place.setCreationDate(LocalDate.now());
+
 		placeRepository.save(place);
-		return createPlaceRequest;
+		return createPlaceModel.getCreatePlaceRequest();
 	}
 
 	private void checkIfCategoryExists(List<CreatePlaceCategoryRequest> createPlaceCategoryRequests) {

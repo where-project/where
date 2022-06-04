@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ public class Place {
 	@Column(name = "is_active", nullable = false)
 	private boolean isActive = false;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id")
 	private Location location;
 
@@ -60,8 +61,8 @@ public class Place {
 	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Comment> comments;
 
-	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Menu> menus;
+	@OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Menu menu;
 
 	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<PlaceAmenity> placeAmenities;
