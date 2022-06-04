@@ -35,4 +35,6 @@ public class UpdatePlaceRequest {
 
 	private List<CreatePlaceCategoryRequest> createPlaceCategoryRequests;
 
+	private List<CreatePlaceAmenityRequest> createPlaceAmenityRequest;
+
 }
