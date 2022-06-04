@@ -19,6 +19,7 @@ import com.where.where.model.Item;
 import com.where.where.model.Location;
 import com.where.where.model.Menu;
 import com.where.where.model.Place;
+import com.where.where.model.PlaceAmenity;
 import com.where.where.model.PlaceCategory;
 import com.where.where.repository.PlaceRepository;
 
@@ -37,14 +38,20 @@ public class PlaceService {
 		checkIfCategoryExists(createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests());
 
 		Place place = this.modelMapperService.forRequest().map(createPlaceModel.getCreatePlaceRequest(), Place.class);
-		List<PlaceCategory> placeCategories = createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests().stream()
-				.map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
+		List<PlaceCategory> placeCategories = createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests()
+				.stream().map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
 				.collect(Collectors.toList());
-		Location location = this.modelMapperService.forRequest().map(createPlaceModel.getCreateLocationRequest(), Location.class);
-		
-		List<Item> items = createPlaceModel.getCreateItemRequest().stream().map(item -> modelMapperService.forRequest().map(item, Item.class))
+		Location location = this.modelMapperService.forRequest().map(createPlaceModel.getCreateLocationRequest(),
+				Location.class);
+
+		List<Item> items = createPlaceModel.getCreateItemRequest().stream()
+				.map(item -> modelMapperService.forRequest().map(item, Item.class)).collect(Collectors.toList());
+		List<PlaceAmenity> placeAmenities = createPlaceModel.getCreatePlaceRequest().getCreatePlaceAmenityRequest()
+				.stream().map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
 				.collect(Collectors.toList());
-		
+
+		place.setPlaceAmenities(mappingPlaceAmenity(placeAmenities, place));
+
 		Menu menu = new Menu();
 		menu.setItems(items);
 		menu.setPlace(place);
@@ -52,7 +59,7 @@ public class PlaceService {
 
 		place.setLocation(location);
 		place.setMenu(menu);
-		
+
 		place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
 		place.setCreationDate(LocalDate.now());
 
@@ -77,6 +84,16 @@ public class PlaceService {
 		throw new BusinessException("Category id is not specified.");
 	}
 
+	private List<PlaceAmenity> mappingPlaceAmenity(List<PlaceAmenity> placeAmenities, Place place) {
+		if (!placeAmenities.isEmpty()) {
+			for (PlaceAmenity placeAmenity : placeAmenities) {
+				placeAmenity.setId(null);
+				placeAmenity.setPlace(place);
+			}
+		}
+		return placeAmenities;
+	}
+
 	public List<PlaceDto> getAll() {
 		List<Place> result = placeRepository.findAll();
 		List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
@@ -93,6 +110,11 @@ public class PlaceService {
 		List<PlaceCategory> placeCategories = updatePlaceDto.getCreatePlaceCategoryRequests().stream()
 				.map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
 				.collect(Collectors.toList());
+		List<PlaceAmenity> placeAmenities = updatePlaceDto.getCreatePlaceAmenityRequest().stream()
+				.map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
+				.collect(Collectors.toList());
+
+		place.setPlaceAmenities(mappingPlaceAmenity(placeAmenities, place));
 		place.setPlaceCategories(mappingPlaceCategory(placeCategories, place));
 		place.setId(id);
 		place.setCreationDate(oldPlace.getCreationDate());

@@ -29,4 +29,7 @@ public class CreatePlaceRequest {
 	private Long ownerId;
 
 	private List<CreatePlaceCategoryRequest> createPlaceCategoryRequests;
+	
+	private List<CreatePlaceAmenityRequest> createPlaceAmenityRequest;
+
 }
