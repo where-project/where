@@ -20,8 +20,5 @@ public class MenuModel {
 	@NotNull
 	private Long placeId;
 	
-	@Positive
-	@NotNull
-	private Long menuTypeId;
 	private List<CreateItemRequest> createItemRequest;
 }

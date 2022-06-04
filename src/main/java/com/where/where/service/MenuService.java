@@ -26,12 +26,10 @@ public class MenuService {
 	private final MenuRepository menuRepository;
 	private final ModelMapperService modelMapperService;
 	private final PlaceService placeService;
-	private final MenuTypeService menuTypeService;
 	private final ItemService itemService;
 
 	public MenuDto add(MenuModel menuModel) {
 		checkIfPlaceExists(menuModel.getPlaceId());
-		checkIfMenuTypeExists(menuModel.getMenuTypeId());
 
 		List<Item> items = menuModel.getCreateItemRequest().stream()
 				.map(item -> modelMapperService.forDto().map(item, Item.class)).collect(Collectors.toList());
@@ -43,17 +41,12 @@ public class MenuService {
 		menu.setItems(items);
 
 		items.forEach(item -> item.setMenu(menu));
-		menu.setMenuType(menuTypeService.getById(menuModel.getMenuTypeId()));
 		menuRepository.save(menu);
 		return modelMapperService.forDto().map(menu, MenuDto.class);
 	}
 
 	private void checkIfPlaceExists(Long id) {
 		placeService.checkIfPlaceExists(id);
-	}
-
-	private void checkIfMenuTypeExists(Long id) {
-		menuTypeService.checkIfMenuTypeExists(id);
 	}
 
 	public List<MenuDto> getAll() {
@@ -69,11 +62,10 @@ public class MenuService {
 		return modelMapperService.forDto().map(menu, MenuDto.class);
 	}
 
-	public List<MenuDto> getByPlaceId(Long id) {
+	public MenuDto getByPlaceId(Long id) {
 		checkIfPlaceExists(id);
-		List<Menu> menuList = menuRepository.getByPlaceId(id);
-		return menuList.stream().map(menu -> modelMapperService.forDto().map(menu, MenuDto.class))
-				.collect(Collectors.toList());
+		Menu menu = menuRepository.getByPlaceId(id);
+		return modelMapperService.forDto().map(menu, MenuDto.class);
 
 	}
 
@@ -83,11 +75,10 @@ public class MenuService {
 	}
 
 	@Transactional
-	public MenuDto update(Long id, Long menuTypeId, List<CreateItemRequest> createItemRequest) {
+	public MenuDto update(Long id, List<CreateItemRequest> createItemRequest) {
 		checkIfPlaceExists(id);
-		checkIfMenuTypeExists(menuTypeId);
-
-		Menu menu = menuRepository.getByMenuTypeIdAndPlaceId(id, menuTypeId);
+		
+		Menu menu = menuRepository.getByPlaceId(id);
 		List<Item> items = createItemRequest.stream().map(item -> modelMapperService.forDto().map(item, Item.class))
 				.collect(Collectors.toList());
 
