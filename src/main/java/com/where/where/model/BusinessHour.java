@@ -1,28 +1,35 @@
 package com.where.where.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "business_hours")
 public class BusinessHour {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    private String day;
+	private String day;
 
-    private String status;
+	private String status;
 
-    private String hour;
+	private String hour;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "place_id")
-    private Place place;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "place_id")
+	private Place place;
 }
