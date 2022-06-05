@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.where.where.dto.CreateBusinessHourRequest;
 import com.where.where.dto.CreateItemRequest;
 import com.where.where.dto.CreateLocationRequest;
 import com.where.where.dto.CreatePlaceRequest;
@@ -23,4 +24,6 @@ public class CreatePlaceModel {
 	CreateLocationRequest createLocationRequest;
 	@NotNull
 	List<CreateItemRequest> createItemRequest;
+	@NotNull
+	List<CreateBusinessHourRequest> createBusinessHourRequest;
 }

@@ -15,6 +15,7 @@ import com.where.where.dto.model.CreatePlaceModel;
 import com.where.where.exception.BusinessException;
 import com.where.where.exception.PlaceNotFoundException;
 import com.where.where.mapper.ModelMapperService;
+import com.where.where.model.BusinessHour;
 import com.where.where.model.Item;
 import com.where.where.model.Location;
 import com.where.where.model.Menu;
@@ -43,13 +44,16 @@ public class PlaceService {
 				.collect(Collectors.toList());
 		Location location = this.modelMapperService.forRequest().map(createPlaceModel.getCreateLocationRequest(),
 				Location.class);
-
 		List<Item> items = createPlaceModel.getCreateItemRequest().stream()
 				.map(item -> modelMapperService.forRequest().map(item, Item.class)).collect(Collectors.toList());
 		List<PlaceAmenity> placeAmenities = createPlaceModel.getCreatePlaceRequest().getCreatePlaceAmenityRequest()
 				.stream().map(placeAmenity -> modelMapperService.forRequest().map(placeAmenity, PlaceAmenity.class))
 				.collect(Collectors.toList());
+		List<BusinessHour> businessHours = createPlaceModel.getCreateBusinessHourRequest().stream()
+				.map(businessHour -> modelMapperService.forRequest().map(businessHour, BusinessHour.class))
+				.collect(Collectors.toList());
 
+		place.setBusinessHours(mappingBusinessHour(businessHours, place));
 		place.setPlaceAmenities(mappingPlaceAmenity(placeAmenities, place));
 
 		Menu menu = new Menu();
@@ -92,6 +96,16 @@ public class PlaceService {
 			}
 		}
 		return placeAmenities;
+	}
+
+	private List<BusinessHour> mappingBusinessHour(List<BusinessHour> businessHours, Place place) {
+		if (!businessHours.isEmpty()) {
+			for (BusinessHour businessHour : businessHours) {
+				businessHour.setId(null);
+				businessHour.setPlace(place);
+			}
+		}
+		return businessHours;
 	}
 
 	public List<PlaceDto> getAll() {
