@@ -33,6 +33,7 @@ public class PlaceService {
 	private final ModelMapperService modelMapperService;
 	private final PlaceCategoryService placeCategoryService;
 	private final CategoryService categoryService;
+	private final CityService cityService;
 
 	@Transactional
 	public CreatePlaceRequest add(CreatePlaceModel createPlaceModel) {
@@ -180,6 +181,38 @@ public class PlaceService {
 	public void delete(Long id) {
 		checkIfPlaceExists(id);
 		placeRepository.deleteById(id);
+	}
 
+	public List<PlaceDto> filterByCityId(Long id) {
+		checkIfCityExistsById(id);
+		List<Place> result = placeRepository.findByLocationCityId(id);
+		List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
+				.collect(Collectors.toList());
+		return response;
+	}
+
+	public List<PlaceDto> filterByCategoryId(Long id) {
+		checkIfCategoryExistsById(id);
+		List<Place> result = placeRepository.findByPlaceCategoriesCategoryId(id);
+		List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
+				.collect(Collectors.toList());
+		return response;
+	}
+
+	public List<PlaceDto> filterByCityIdAndCategoryId(Long cityId, Long categoryId) {
+		checkIfCityExistsById(cityId);
+		checkIfCategoryExistsById(categoryId);
+		List<Place> result = placeRepository.findByLocationCityIdAndPlaceCategoriesCategoryId(cityId, categoryId);
+		List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
+				.collect(Collectors.toList());
+		return response;
+	}
+
+	private void checkIfCategoryExistsById(Long id) {
+		categoryService.checkIfCategoryExistsById(id);
+	}
+
+	private void checkIfCityExistsById(Long id) {
+		cityService.checkIfCityExists(id);
 	}
 }
