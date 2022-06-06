@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class CreateBusinessHourRequest {
 	private String day;
 	private String status;
-	private String hour;
+	private String startTime;
+	private String closingTime;
 }

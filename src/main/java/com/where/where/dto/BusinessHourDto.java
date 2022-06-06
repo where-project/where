@@ -13,7 +13,8 @@ import javax.validation.constraints.Positive;
 public class BusinessHourDto {
     private Long id;
     private String day;
-    private String hour;
+    private String startTime;
+    private String closingTime;
     private String status;
 
     @NotNull(message = "Must be not null")

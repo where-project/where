@@ -136,6 +136,12 @@ public class UserServiceManager implements UserService, UserDetailsService {
 		if (!userRepository.existsById(id)) {
 			throw new UserNotFoundException("User not found.");
 		}
+	}
+
+	public void existsByUsername(String username) {
+		if (!userRepository.existsByUsername(username)) {
+			throw new UserNotFoundException("User not found.");
+		}
 
 	}
 
@@ -143,6 +149,14 @@ public class UserServiceManager implements UserService, UserDetailsService {
 	public UserDto getById(Long id) {
 		existsById(id);
 		BaseUser baseUser = userRepository.getById(id);
+		UserDto response = modelMapperService.forDto().map(baseUser, UserDto.class);
+		return response;
+	}
+
+	@Override
+	public UserDto getByUsername(String username) {
+		existsByUsername(username);
+		BaseUser baseUser = userRepository.findByUsername(username);
 		UserDto response = modelMapperService.forDto().map(baseUser, UserDto.class);
 		return response;
 	}

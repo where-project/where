@@ -28,5 +28,8 @@ public class PlaceDto {
 	private boolean isActive;
 	private boolean status;
 	private List<PlaceAmenityDto> placeAmenities;
+	private List<ItemDto> menuItems;
+	private List<BusinessHourDto> businessHours;
+
 
 }
