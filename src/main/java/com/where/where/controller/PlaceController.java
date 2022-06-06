@@ -52,8 +52,7 @@ public class PlaceController {
 
 	@PostMapping("/add")
 	public ResponseEntity<CreatePlaceRequest> add(@Valid @RequestBody CreatePlaceModel createPlaceModel) {
-		return new ResponseEntity<CreatePlaceRequest>(
-				placeService.add(createPlaceModel), HttpStatus.OK);
+		return new ResponseEntity<CreatePlaceRequest>(placeService.add(createPlaceModel), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
@@ -75,5 +74,21 @@ public class PlaceController {
 	@PutMapping("/changeStatus/{id}")
 	public ResponseEntity<Boolean> changeStatus(@PathVariable Long id) {
 		return new ResponseEntity<>(placeService.changeStatus(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/filterByCityId/{id}")
+	public ResponseEntity<List<PlaceDto>> filterByCityId(@Valid @PathVariable Long id) {
+		return new ResponseEntity<List<PlaceDto>>(placeService.filterByCityId(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/filterByCategoryId/{id}")
+	public ResponseEntity<List<PlaceDto>> filterByCategoryId(@PathVariable Long id) {
+		return new ResponseEntity<>(placeService.filterByCategoryId(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/filterByCityIdAndCategoryId/{cityId}/{categoryId}")
+	public ResponseEntity<List<PlaceDto>> filterByCityIdAndCategoryId(@PathVariable Long cityId,
+			@PathVariable Long categoryId) {
+		return new ResponseEntity<>(placeService.filterByCityIdAndCategoryId(cityId, categoryId), HttpStatus.OK);
 	}
 }

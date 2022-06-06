@@ -36,7 +36,7 @@ public class CityService {
 				.collect(Collectors.toList());
 	}
 
-	private void checkIfCityExists(Long id) {
+	public void checkIfCityExists(Long id) {
 
 		if (!cityRepository.existsById(id)) {
 			throw new BusinessException("City does not found.");
