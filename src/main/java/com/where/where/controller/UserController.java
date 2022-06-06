@@ -106,8 +106,13 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/getByUserId/{id}")
+	@GetMapping("v1/users/getByUserId/{id}")
 	public ResponseEntity<UserDto> getById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(userService.getById(id));
+	}
+
+	@GetMapping("v1/users/getByUsername/{username}")
+	public ResponseEntity<UserDto> getById(@PathVariable String username) {
+		return ResponseEntity.ok().body(userService.getByUsername(username));
 	}
 }

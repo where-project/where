@@ -10,6 +10,7 @@ import com.where.where.model.BaseUser;
 import com.where.where.model.Role;
 
 public interface UserService {
+
 	UserDto saveUser(CreateUserRequest createUserRequest);
 
 	Role saveRole(CreateRoleRequest createRoleRequest);
@@ -21,7 +22,10 @@ public interface UserService {
 	List<BaseUser> getUsers();
 
 	void existsById(Long id);
-	
+
 	UserDto getById(Long id);
+	
+	UserDto getByUsername(String username);
+
 
 }
