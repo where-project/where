@@ -27,7 +27,9 @@ public class BusinessHour {
 
 	private String status;
 
-	private String hour;
+    private String startTime;
+    
+    private String closingTime;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "place_id")
