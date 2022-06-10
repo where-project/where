@@ -20,9 +20,6 @@ public class CreateCommentRequest {
 	private String commentText;
 
 	@NotNull(message = "Must be not null")
-	private LocalDate createDate;
-
-	@NotNull(message = "Must be not null")
 	@Positive
 	private Long userId;
 
