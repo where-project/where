@@ -1,5 +1,6 @@
 package com.where.where.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class CommentService {
 		checkIfPlaceExists(createCommentRequest.getPlaceId());
 		checkIfUserExists(createCommentRequest.getUserId());
 		Comment comment = this.modelMapperService.forRequest().map(createCommentRequest, Comment.class);
+		comment.setCreateDate(LocalDate.now());
 		commentRepository.save(comment);
 		return createCommentRequest;
 	}
