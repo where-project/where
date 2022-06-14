@@ -1,13 +1,11 @@
 package com.where.where.service;
 
-import com.where.where.exception.AttachmentNotFoundException;
-import com.where.where.exception.EmailException;
-import com.where.where.model.BaseUser;
-import com.where.where.repository.SettingsRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.LogManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.File;
+import java.util.Properties;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,11 +14,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.util.Properties;
-import java.util.logging.Logger;
+import com.where.where.exception.AttachmentNotFoundException;
+import com.where.where.exception.EmailException;
+import com.where.where.repository.SettingsRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j

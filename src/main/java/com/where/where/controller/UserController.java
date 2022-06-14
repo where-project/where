@@ -112,7 +112,7 @@ public class UserController {
 	}
 
 	@GetMapping("v1/users/getByUsername/{username}")
-	public ResponseEntity<UserDto> getById(@PathVariable String username) {
+	public ResponseEntity<UserDto> getByUsername(@PathVariable String username) {
 		return ResponseEntity.ok().body(userService.getByUsername(username));
 	}
 }
