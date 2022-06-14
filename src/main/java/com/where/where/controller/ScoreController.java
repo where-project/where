@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.where.where.model.Score;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,8 +35,8 @@ public class ScoreController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<CreateScoreRequest> add(@Valid @RequestBody CreateScoreRequest createScoreRequest) {
-		return new ResponseEntity<CreateScoreRequest>(scoreService.add(createScoreRequest), HttpStatus.OK);
+	public ResponseEntity<Score> add(@Valid @RequestBody CreateScoreRequest createScoreRequest) {
+		return new ResponseEntity<Score>(scoreService.add(createScoreRequest), HttpStatus.OK);
 	}
 
 	@GetMapping("/getById/{id}")

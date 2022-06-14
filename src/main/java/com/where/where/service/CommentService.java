@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.where.where.model.Score;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,23 +33,24 @@ public class CommentService {
 
 	@Transactional
 	public ReviewModel add(ReviewModel reviewModel) {
-		addComment(reviewModel.getCreateCommentRequest());
-		addScore(reviewModel.getCreateScoreRequest());
+		Score score = addScore(reviewModel.getCreateScoreRequest());
+		addComment(reviewModel.getCreateCommentRequest(),score);
 		return reviewModel;
 	}
 
 	@Transactional
-	public CreateCommentRequest addComment(CreateCommentRequest createCommentRequest) {
+	public CreateCommentRequest addComment(CreateCommentRequest createCommentRequest,Score score) {
 		checkIfPlaceExists(createCommentRequest.getPlaceId());
 		checkIfUserExists(createCommentRequest.getUserId());
 		Comment comment = this.modelMapperService.forRequest().map(createCommentRequest, Comment.class);
 		comment.setCreateDate(LocalDate.now());
+		comment.setScore(score);
 		commentRepository.save(comment);
 		return createCommentRequest;
 	}
 
 	@Transactional
-	public CreateScoreRequest addScore(CreateScoreRequest createScoreRequest) {
+	public Score addScore(CreateScoreRequest createScoreRequest) {
 		return scoreService.add(createScoreRequest);
 	}
 
