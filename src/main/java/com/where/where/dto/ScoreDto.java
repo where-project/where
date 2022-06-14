@@ -25,4 +25,6 @@ public class ScoreDto {
 
 	private String placeName;
 
+	private Long userId;
+
 }

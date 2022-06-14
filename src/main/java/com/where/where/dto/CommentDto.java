@@ -22,4 +22,8 @@ public class CommentDto {
 	private String lastName;
 
 	private String placeName;
+
+	private Long userId;
+
+	private Long scoreId;
 }
