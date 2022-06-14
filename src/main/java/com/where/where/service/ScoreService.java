@@ -1,10 +1,12 @@
 package com.where.where.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.where.where.dto.CreateScoreRequest;
 import com.where.where.dto.ScoreDto;
@@ -25,10 +27,12 @@ public class ScoreService {
 	private final PlaceService placeService;
 	private final UserService userService;
 
+	@Transactional
 	public CreateScoreRequest add(CreateScoreRequest createScoreRequest) {
 		checkIfUserExists(createScoreRequest.getUserId());
 		checkIfPlaceExists(createScoreRequest.getPlaceId());
 		Score score = modelMapperService.forRequest().map(createScoreRequest, Score.class);
+		score.setCreateDate(LocalDate.now());
 		scoreRepository.save(score);
 		return createScoreRequest;
 	}
@@ -75,4 +79,12 @@ public class ScoreService {
 			throw new ScoreNotFoundException("Score not found");
 		}
 	}
+
+	public List<ScoreDto> getByPlaceId(Long id) {
+		checkIfPlaceExists(id);
+		List<Score> result = scoreRepository.getByPlaceId(id);
+		return result.stream().map(score -> modelMapperService.forDto().map(score, ScoreDto.class))
+				.collect(Collectors.toList());
+	}
+
 }
