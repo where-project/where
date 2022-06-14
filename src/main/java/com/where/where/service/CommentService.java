@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.where.where.dto.CommentDto;
 import com.where.where.dto.CreateCommentRequest;
+import com.where.where.dto.CreateScoreRequest;
+import com.where.where.dto.model.ReviewModel;
 import com.where.where.exception.CommentNotFoundException;
 import com.where.where.mapper.ModelMapperService;
 import com.where.where.model.Comment;
@@ -25,14 +28,28 @@ public class CommentService {
 	@Lazy
 	private final PlaceService placeService;
 	private final UserService userService;
+	private final ScoreService scoreService;
 
-	public CreateCommentRequest add(CreateCommentRequest createCommentRequest) {
+	@Transactional
+	public ReviewModel add(ReviewModel reviewModel) {
+		addComment(reviewModel.getCreateCommentRequest());
+		addScore(reviewModel.getCreateScoreRequest());
+		return reviewModel;
+	}
+
+	@Transactional
+	public CreateCommentRequest addComment(CreateCommentRequest createCommentRequest) {
 		checkIfPlaceExists(createCommentRequest.getPlaceId());
 		checkIfUserExists(createCommentRequest.getUserId());
 		Comment comment = this.modelMapperService.forRequest().map(createCommentRequest, Comment.class);
 		comment.setCreateDate(LocalDate.now());
 		commentRepository.save(comment);
 		return createCommentRequest;
+	}
+
+	@Transactional
+	public CreateScoreRequest addScore(CreateScoreRequest createScoreRequest) {
+		return scoreService.add(createScoreRequest);
 	}
 
 	public List<CommentDto> getAll() {

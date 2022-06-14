@@ -1,7 +1,11 @@
 package com.where.where.repository;
 
-import com.where.where.model.Score;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ScoreRepository extends JpaRepository<Score,Long> {
+import com.where.where.model.Score;
+
+public interface ScoreRepository extends JpaRepository<Score, Long> {
+	List<Score> getByPlaceId(Long id);
 }

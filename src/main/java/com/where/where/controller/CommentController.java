@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.where.where.dto.CommentDto;
 import com.where.where.dto.CreateCommentRequest;
+import com.where.where.dto.model.ReviewModel;
 import com.where.where.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class CommentController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<CreateCommentRequest> add(@Valid @RequestBody CreateCommentRequest createCommentRequest) {
-		return new ResponseEntity<CreateCommentRequest>(commentService.add(createCommentRequest), HttpStatus.OK);
+	public ResponseEntity<ReviewModel> add(@Valid @RequestBody ReviewModel reviewModel) {
+		return new ResponseEntity<ReviewModel>(commentService.add(reviewModel), HttpStatus.OK);
 	}
 
 	@GetMapping("/getById/{id}")
