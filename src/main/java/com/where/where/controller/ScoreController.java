@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.where.where.dto.ScoreResponseRequest;
 import com.where.where.model.Score;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,5 +59,9 @@ public class ScoreController {
 	@GetMapping("/getByPlaceId/{id}")
 	public ResponseEntity<List<ScoreDto>> getByPlaceId(@Valid @PathVariable Long id) {
 		return new ResponseEntity<List<ScoreDto>>(scoreService.getByPlaceId(id), HttpStatus.OK);
+	}
+	@GetMapping("/getAvgScore/{id}")
+	public ResponseEntity<ScoreResponseRequest> getAvgScores(@Valid @PathVariable Long id){
+		return new ResponseEntity<>(scoreService.getAvgScores(id),HttpStatus.OK);
 	}
 }
