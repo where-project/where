@@ -40,6 +40,7 @@ public class PlaceService {
 		checkIfCategoryExists(createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests());
 
 		Place place = this.modelMapperService.forRequest().map(createPlaceModel.getCreatePlaceRequest(), Place.class);
+		place.setId((long) 0);
 		List<PlaceCategory> placeCategories = createPlaceModel.getCreatePlaceRequest().getCreatePlaceCategoryRequests()
 				.stream().map(placeCategory -> modelMapperService.forRequest().map(placeCategory, PlaceCategory.class))
 				.collect(Collectors.toList());
@@ -178,9 +179,10 @@ public class PlaceService {
 		return response;
 	}
 
-	public void delete(Long id) {
+	public boolean delete(Long id) {
 		checkIfPlaceExists(id);
 		placeRepository.deleteById(id);
+		return true;
 	}
 
 	public List<PlaceDto> filterByCityId(Long id) {

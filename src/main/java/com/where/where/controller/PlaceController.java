@@ -56,8 +56,8 @@ public class PlaceController {
 	}
 
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		placeService.delete(id);
+	public boolean delete(@PathVariable Long id) {
+		return placeService.delete(id);
 	}
 
 	@PutMapping("/update/{id}")
