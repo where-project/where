@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.where.where.dto.ScoreResponseRequest;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,6 +66,18 @@ public class ScoreService {
         return updateScoreDto;
     }
 
+    public ScoreResponseRequest getAvgScores(Long id) {
+        checkIfPlaceExists(id);
+        ScoreResponseRequest scoreResponseRequest = new ScoreResponseRequest();
+        scoreResponseRequest.setNumberOfReview(scoreRepository.getNumberOfReview(id));
+        if (scoreResponseRequest.getNumberOfReview() == 0) {
+            scoreResponseRequest.setAverageOfScores(0);
+        } else {
+            scoreResponseRequest.setAverageOfScores(scoreRepository.getAverageScore(id));
+        }
+        return scoreResponseRequest;
+    }
+
     private void checkIfPlaceExists(Long id) {
         placeService.checkIfPlaceExists(id);
     }
@@ -85,5 +98,4 @@ public class ScoreService {
         return result.stream().map(score -> modelMapperService.forDto().map(score, ScoreDto.class))
                 .collect(Collectors.toList());
     }
-
 }

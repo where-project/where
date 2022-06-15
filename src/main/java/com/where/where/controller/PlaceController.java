@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.where.where.dto.PlaceScoreDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,8 +32,8 @@ public class PlaceController {
 	private final PlaceService placeService;
 
 	@GetMapping("/getAll")
-	public ResponseEntity<List<PlaceDto>> getAll() {
-		return new ResponseEntity<List<PlaceDto>>(placeService.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<PlaceScoreDto>> getAll() {
+		return new ResponseEntity<List<PlaceScoreDto>>(placeService.getAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/getById/{id}")
