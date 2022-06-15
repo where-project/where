@@ -30,6 +30,4 @@ public class PlaceDto {
 	private List<PlaceAmenityDto> placeAmenities;
 	private List<ItemDto> menuItems;
 	private List<BusinessHourDto> businessHours;
-
-
 }
