@@ -78,17 +78,17 @@ public class PlaceController {
 	}
 
 	@GetMapping("/filterByCityId/{id}")
-	public ResponseEntity<List<PlaceDto>> filterByCityId(@Valid @PathVariable Long id) {
-		return new ResponseEntity<List<PlaceDto>>(placeService.filterByCityId(id), HttpStatus.OK);
+	public ResponseEntity<List<PlaceScoreDto>> filterByCityId(@Valid @PathVariable Long id) {
+		return new ResponseEntity<List<PlaceScoreDto>>(placeService.filterByCityId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/filterByCategoryId/{id}")
-	public ResponseEntity<List<PlaceDto>> filterByCategoryId(@PathVariable Long id) {
+	public ResponseEntity<List<PlaceScoreDto>> filterByCategoryId(@PathVariable Long id) {
 		return new ResponseEntity<>(placeService.filterByCategoryId(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/filterByCityIdAndCategoryId/{cityId}/{categoryId}")
-	public ResponseEntity<List<PlaceDto>> filterByCityIdAndCategoryId(@PathVariable Long cityId,
+	public ResponseEntity<List<PlaceScoreDto>> filterByCityIdAndCategoryId(@PathVariable Long cityId,
 			@PathVariable Long categoryId) {
 		return new ResponseEntity<>(placeService.filterByCityIdAndCategoryId(cityId, categoryId), HttpStatus.OK);
 	}
