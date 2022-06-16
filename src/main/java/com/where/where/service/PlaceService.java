@@ -113,15 +113,7 @@ public class PlaceService {
         List<Place> result = placeRepository.findAll();
         List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
                 .collect(Collectors.toList());
-
-        List<PlaceScoreDto> placeScoreDto = new ArrayList<>();
-        for (PlaceDto item : response) {
-            PlaceScoreDto tmp = new PlaceScoreDto();
-            tmp.setPlaceDto(item);
-            tmp.setScoreResponseRequest(scoreService.getAvgScores(item.getId()));
-            placeScoreDto.add(tmp);
-        }
-        return placeScoreDto;
+        return createPlaceScoreDto(response);
     }
 
     public UpdatePlaceRequest update(Long id, UpdatePlaceRequest updatePlaceDto) {
