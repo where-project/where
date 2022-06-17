@@ -113,15 +113,7 @@ public class PlaceService {
         List<Place> result = placeRepository.findAll();
         List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
                 .collect(Collectors.toList());
-
-        List<PlaceScoreDto> placeScoreDto = new ArrayList<>();
-        for (PlaceDto item : response) {
-            PlaceScoreDto tmp = new PlaceScoreDto();
-            tmp.setPlaceDto(item);
-            tmp.setScoreResponseRequest(scoreService.getAvgScores(item.getId()));
-            placeScoreDto.add(tmp);
-        }
-        return placeScoreDto;
+        return createPlaceScoreDto(response);
     }
 
     public UpdatePlaceRequest update(Long id, UpdatePlaceRequest updatePlaceDto) {
@@ -192,29 +184,29 @@ public class PlaceService {
         return true;
     }
 
-    public List<PlaceDto> filterByCityId(Long id) {
+    public List<PlaceScoreDto> filterByCityId(Long id) {
         checkIfCityExistsById(id);
         List<Place> result = placeRepository.findByLocationCityId(id);
         List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
                 .collect(Collectors.toList());
-        return response;
+        return  createPlaceScoreDto(response);
     }
 
-    public List<PlaceDto> filterByCategoryId(Long id) {
+    public List<PlaceScoreDto> filterByCategoryId(Long id) {
         checkIfCategoryExistsById(id);
         List<Place> result = placeRepository.findByPlaceCategoriesCategoryId(id);
         List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
                 .collect(Collectors.toList());
-        return response;
+        return  createPlaceScoreDto(response);
     }
 
-    public List<PlaceDto> filterByCityIdAndCategoryId(Long cityId, Long categoryId) {
+    public List<PlaceScoreDto> filterByCityIdAndCategoryId(Long cityId, Long categoryId) {
         checkIfCityExistsById(cityId);
         checkIfCategoryExistsById(categoryId);
         List<Place> result = placeRepository.findByLocationCityIdAndPlaceCategoriesCategoryId(cityId, categoryId);
         List<PlaceDto> response = result.stream().map(place -> modelMapperService.forDto().map(place, PlaceDto.class))
                 .collect(Collectors.toList());
-        return response;
+        return createPlaceScoreDto(response);
     }
 
     private void checkIfCategoryExistsById(Long id) {
@@ -223,5 +215,16 @@ public class PlaceService {
 
     private void checkIfCityExistsById(Long id) {
         cityService.checkIfCityExists(id);
+    }
+
+    private  List<PlaceScoreDto> createPlaceScoreDto(List<PlaceDto> response){
+        List<PlaceScoreDto> placeScoreDto = new ArrayList<>();
+        for (PlaceDto item : response) {
+            PlaceScoreDto tmp = new PlaceScoreDto();
+            tmp.setPlaceDto(item);
+            tmp.setScoreResponseRequest(scoreService.getAvgScores(item.getId()));
+            placeScoreDto.add(tmp);
+        }
+        return placeScoreDto;
     }
 }
