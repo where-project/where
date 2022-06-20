@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.where.where.dto.model.ReservationModel;
 import com.where.where.service.EmailService;
 
+import java.util.Random;
+
 @RestController
 @RequestMapping("/api/v1/email-sender")
 public class EmailController {
@@ -26,10 +28,11 @@ public class EmailController {
 	@PostMapping("/send-email")
 	public boolean sendEmail(@Valid @RequestBody ReservationModel reservationModel) {
 		try {
+			Random random = new Random();
 			emailService.sendEmail(reservationModel.getEmail(),
 					"The reservation you have made to the " + reservationModel.getPlaceName() + " on "
 							+ reservationModel.getReservationDate() + " at " + reservationModel.getReservationTime()
-							+ " time has been completed. You can log in with the " + "#123" + " code.",
+							+ " time has been completed. You can log in with the " + Math.abs(random.nextInt()) + " code.",
 					"Reservation Details WHERE");
 		} catch (MailException e) {
 			logger.info(e.getMessage());
