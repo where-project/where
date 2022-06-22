@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.where.where.dto.ContactDto;
 import com.where.where.dto.model.ReservationModel;
 import com.where.where.service.EmailService;
 
@@ -32,8 +33,20 @@ public class EmailController {
 			emailService.sendEmail(reservationModel.getEmail(),
 					"The reservation you have made to the " + reservationModel.getPlaceName() + " on "
 							+ reservationModel.getReservationDate() + " at " + reservationModel.getReservationTime()
-							+ " time has been completed. You can log in with the " + Math.abs(random.nextInt()) + " code.",
+							+ " time has been completed. You can log in with the #" + Math.abs(random.nextInt())
+							+ " code.",
 					"Reservation Details WHERE");
+		} catch (MailException e) {
+			logger.info(e.getMessage());
+		}
+		return true;
+	}
+
+	@PostMapping("/send-email1")
+	public boolean sendEmailContact(@Valid @RequestBody ContactDto contactDto) {
+		try {
+			emailService.sendEmail(contactDto.getEmail(), contactDto.getBody() + " This email send by: "
+					+ contactDto.getName() + " - " + contactDto.getEmailTo(), contactDto.getSubject());
 		} catch (MailException e) {
 			logger.info(e.getMessage());
 		}
