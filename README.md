@@ -11,5 +11,4 @@
 
 ## 3. THE WORKS OF TEAM MEMBERS
 >* [Onur Akkepenek](https://github.com/OnurAkkepenekk)
->* [Berkay Hüseyinoğlu](https://github.com/thehuseyinoglu)
 >* [Yasemin Gerboğa](https://github.com/yasemingerboga)
