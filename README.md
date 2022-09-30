@@ -4,7 +4,7 @@
 ### 3 - [THE WORKS OF TEAM MEMBERS](https://github.com/where-project#3-the-works-of-team-members)
 
 ## 1. INTRODUCTION
-Projemizde backend gerçeklemeleri Java (Spring Boot) ile yapılmıştır. Aşağıdaki şekilde görüldüğü üzere gerekli sınıf ve fonksiyonlara göre paketlere bölünmüştür. Bölünen her katmanın kendine ait bir görevi olup sistematik olarak işleyiş sağlanmıştır. Paketlere bölmemizdeki amaç S.O.L.I.D prensiplerini temel almak ve N-Katmanlı mimari yapısı standartlarına uygun bir ürün ortaya çıkarmaktır.
+Projemizde backend gerçeklemeleri Java (Spring Boot) ile yapılmıştır. Aşağıdaki şekilde görüldüğü üzere sınıflar ve interface'ler yapacağı işlere göre paketlere bölünmüştür. Bölünen her katmanın kendine ait bir görevi olup sistematik olarak işleyiş sağlanmıştır. Paketlere bölmemizdeki amaç S.O.L.I.D prensiplerini temel almak ve N-Katmanlı mimari yapısı standartlarına uygun bir ürün ortaya çıkarmaktır.
 ![image](https://user-images.githubusercontent.com/61885344/187475488-79b59c2b-391f-4612-822a-694e089ff53e.png)
 
 Backend'te bulunan endpoint’leri test etmek ve dokümantasyon oluşturmak için Swagger UI kullanılmıştır. Swagger UI, server tarafına gelen JSON isteklerinin hangi yapı ve standartlarda yapılması gerektiğini ve gönderilen hatalı JSON objelerinin server tarafından kullanıcıya vereceği geri dönütleri görmemizi sağlar. Frontend tarafında bu standartlara göre yapılar kurmamız beklenmektedir.
@@ -16,7 +16,7 @@ Backend'te bulunan endpoint’leri test etmek ve dokümantasyon oluşturmak içi
 
 ## 2. DESIGN
 ### E/R Diyagramı
-
+Projemize ait ER diyagramı aşağıda verilmiştir.
 ![image](https://user-images.githubusercontent.com/61885344/187474952-fc0d4894-08b0-4148-80a7-ef1ae7a22543.png)
 
 ## 3. THE WORKS OF TEAM MEMBERS
